@@ -128,7 +128,7 @@ concurrency: 2
 
 ## Pre Steps and Dependency Caching
 
-To leverage the advantage offered by *Dependency Caching* in HyperExecute, the integrity of *requirements.txt* is checked using the checksum functionality.
+To leverage the advantage offered by *Dependency Caching* in HyperExecute, the integrity of *package-lock.json* is checked using the checksum functionality.
 
 ```yaml
 cacheKey: '{{ checksum "package-lock.json" }}'
