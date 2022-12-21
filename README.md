@@ -252,7 +252,7 @@ cacheDirectories:
 
 Steps (or commands) that must run before the test execution are listed in the *pre* run step. In the example, the packages listed in *package-lock.json* are installed using the *npm install* command.
 
-The *--cache-dir* option is used for specifying the location of the directory used for caching the packages (i.e. *CacheDir*). It is important to note that downloaded cached packages are securely uploaded to a secure cloud before the execution environment is auto-purged after build completion. Please modify *requirements.txt* as per the project requirements.
+The *--cache-dir* option is used for specifying the location of the directory used for caching the packages (i.e. *CacheDir*). It is important to note that downloaded cached packages are securely uploaded to a secure cloud before the execution environment is auto-purged after build completion. Please modify *package-lock.json* as per the project requirements.
 
 ```yaml
 pre:
