@@ -96,7 +96,7 @@ For more information about auto-split execution, check out the [Auto-Split Getti
 
 ### Core
 
-Auto-split YAML file (*yaml/win/.hyperexecute_autosplits.yaml*) in the repo contains the following configuration:
+Auto-split YAML file (*autosplit.yaml*) in the repo contains the following configuration:
 
 ```yaml
 globalTimeout: 90
@@ -138,16 +138,16 @@ By default, in TypeScript saves the downloaded packages in the cache so that nex
 
 The caching advantage offered by *pip* can be leveraged in HyperExecute, whereby the downloaded packages can be stored (or cached) in a secure server for future executions. The packages available in the cache will only be used if the checksum stage results in a Pass.
 
-The *cacheDirectories* directive is used for specifying the directory where the packages have to be cached. The mentioned directory will override the default directory where TypeScript packages are usually cached; further information about caching in pip is available [here](https://pip.pypa.io/en/stable/cli/pip_cache/). The packages downloaded using pip will be cached in the directory (or location) mentioned under the *cacheDirectories* directive.
+The *cacheDirectories* directive is used for specifying the directory where the packages have to be cached. The mentioned directory will override the default directory where TypeScript packages are usually cached. The packages downloaded using npm will be cached in the directory (or location) mentioned under the *cacheDirectories* directive.
 
-In our case, the downloaded packages are cached in the *CacheDir* folder in the project's root directory. The folder is automatically created when the packages mentioned in *requirements.txt* are downloaded.  
+In our case, the downloaded packages are cached in the *CacheDir* folder in the project's root directory. The folder is automatically created when the packages mentioned in *package-lock,json* are downloaded.  
 
 ```yaml
 cacheDirectories:
   - node_modules
 ```
 
-Content under the *pre* directive is the precondition that will run before the tests are executed on the HyperExecute grid. The *--cache-dir* option in *pip3* is used for specifying the cache directory. It is important to note that downloaded cached packages are securely uploaded to a secure cloud before the execution environment is auto-purged after build completion. Please modify *requirements.txt* as per the project requirements.
+Content under the *pre* directive is the precondition that will run before the tests are executed on the HyperExecute grid. The *--cache-dir* option in *npm install* is used for specifying the cache directory. It is important to note that downloaded cached packages are securely uploaded to a secure cloud before the execution environment is auto-purged after build completion. Please modify *requirements.txt* as per the project requirements.
 
 ```yaml
   - yarn add @yarnpkg/core
@@ -156,7 +156,7 @@ Content under the *pre* directive is the precondition that will run before the t
 
 ## Post Steps
 
-The *post* directive contains a list of commands that run as a part of post-test execution. Here, the contents of *yaml/win/.hyperexecute_autosplits.yaml* are read using the *cat* command as a part of the post step.
+The *post* directive contains a list of commands that run as a part of post-test execution. Here, the contents of *autosplit.yaml* are read using the *cat* command as a part of the post step.
 
 ```yaml
 post:
@@ -176,7 +176,7 @@ testRunnerCommand: TypeScript $test
 
 Running the above command on the terminal will give a list of TypeScript files that are located in the Project folder:
 
-* test_app.py
+* tests/test_1.spec.js
 
 The *testRunnerCommand* contains the command that is used for triggering the test. The output fetched from the *testDiscoverer* command acts as an input to the *testRunner* command.
 
@@ -186,7 +186,7 @@ yarn playwright test $test
 
 ### Test Execution
 
-The CLI option *--config* is used for providing the custom HyperExecute YAML file (i.e. *yaml/win/.hyperexecute_autosplits.yaml* for Windows, *yaml/linux/.hyperexecute_autosplits.yaml* for Linux and  *yaml/linux/.hyperexecute_autosplits.yaml* for Max).
+The CLI option *--config* is used for providing the custom HyperExecute YAML file (i.e. *autosplit.yaml* for Windows, *autosplit.yaml* for Linux and  *autosplit.yaml* for Max).
 
 #### Execute TypeScript tests using Autosplit mechanism on Windows platform
 
@@ -220,7 +220,7 @@ The target platform is set to Windows. Please set the *[runson]* key to *[mac]* 
 runson: win
 ```
 
-TypeScript files in the 'tests' folder contain the test suites run on the HyperExecute grid. In the example, the tests in the files *test_app.py* run in parallel using the specified input combinations.
+TypeScript files in the 'tests' folder contain the test suites run on the HyperExecute grid. In the example, the tests in the files *test_1.spec.js* run in parallel using the specified input combinations.
 
 ```yaml
 matrix:
@@ -228,7 +228,7 @@ matrix:
   methods: ["tests/test_2.spec.js", "tests/test_1.spec.js"]
 ```
 
-The *testSuites* object contains a list of commands (that can be presented in an array). In the current YAML file, commands for executing the tests are put in an array (with a '-' preceding each item). The TypeScript command is used to run tests in *.py* files. The files are mentioned as an array to the *files* key that is a part of the matrix.
+The *testSuites* object contains a list of commands (that can be presented in an array). In the current YAML file, commands for executing the tests are put in an array (with a '-' preceding each item). The TypeScript command is used to run tests in *.ts* files. The files are mentioned as an array to the *files* key that is a part of the matrix.
 
 ```yaml
 testSuites:
@@ -243,14 +243,14 @@ Dependency caching is enabled in the YAML file to ensure that the package depend
 cacheKey: '{{ checksum "package-lock.json" }}'
 ```
 
-Set the array of files & directories to be cached. In the example, all the packages will be cached in the *CacheDir* directory.
+Set the array of files & directories to be cached. In the example, all the packages will be cached in the *node_modules* directory.
 
 ```yaml
 cacheDirectories:
   - node_modules
 ```
 
-Steps (or commands) that must run before the test execution are listed in the *pre* run step. In the example, the packages listed in *requirements.txt* are installed using the *pip3* command.
+Steps (or commands) that must run before the test execution are listed in the *pre* run step. In the example, the packages listed in *package-lock.json* are installed using the *npm install* command.
 
 The *--cache-dir* option is used for specifying the location of the directory used for caching the packages (i.e. *CacheDir*). It is important to note that downloaded cached packages are securely uploaded to a secure cloud before the execution environment is auto-purged after build completion. Please modify *requirements.txt* as per the project requirements.
 
@@ -262,18 +262,18 @@ pre:
 
 ### Post Steps
 
-Steps (or commands) that need to run after the test execution are listed in the *post* step. In the example, we *cat* the contents of *yaml/win/.hyperexecute_matrix.yaml*
+Steps (or commands) that need to run after the test execution are listed in the *post* step. In the example, we *cat* the contents of *hyperexecute.yaml*
 
 ## Test Execution
 
-The CLI option *--config* is used for providing the custom HyperExecute YAML file (i.e. *yaml/win/.hyperexecute_matrix.yaml* or *yaml/linux/.hyperexecute_matrix.yaml* or *yaml/mac/.hyperexecute_matrix.yaml*).
+The CLI option *--config* is used for providing the custom HyperExecute YAML file (i.e. *hyperexecute.yaml* or *hyperexecute.yaml* or *hyperexecute.yaml*).
 
 #### Execute TypeScript tests using Matrix mechanism on Windows platform
 
 Run the following command on the terminal to trigger the tests in TypeScript files with HyperExecute platform set to Windows. The *--download-artifacts* option is used to inform HyperExecute to download the artifacts for the job.
 
 ```bash
-./hyperexecute --download-artifacts --config --verbose yaml/win/.hyperexecute_matrix.yaml
+./hyperexecute --download-artifacts --config --verbose .hyperexecute.yaml
 ```
 
 #### Execute TypeScript tests using Matrix mechanism on Linux platform
