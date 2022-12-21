@@ -136,18 +136,18 @@ cacheKey: '{{ checksum "package-lock.json" }}'
 
 By default, in TypeScript saves the downloaded packages in the cache so that next time, the package download request can be serviced from the cache (rather than re-downloading it again).
 
-The caching advantage offered by *pip* can be leveraged in HyperExecute, whereby the downloaded packages can be stored (or cached) in a secure server for future executions. The packages available in the cache will only be used if the checksum stage results in a Pass.
+The caching advantage offered by *npm* can be leveraged in HyperExecute, whereby the downloaded packages can be stored (or cached) in a secure server for future executions. The packages available in the cache will only be used if the checksum stage results in a Pass.
 
 The *cacheDirectories* directive is used for specifying the directory where the packages have to be cached. The mentioned directory will override the default directory where TypeScript packages are usually cached. The packages downloaded using npm will be cached in the directory (or location) mentioned under the *cacheDirectories* directive.
 
-In our case, the downloaded packages are cached in the *CacheDir* folder in the project's root directory. The folder is automatically created when the packages mentioned in *package-lock,json* are downloaded.  
+In our case, the downloaded packages are cached in the *node_modules* folder in the project's root directory. The folder is automatically created when the packages mentioned in *package-lock.json* are downloaded.  
 
 ```yaml
 cacheDirectories:
   - node_modules
 ```
 
-Content under the *pre* directive is the precondition that will run before the tests are executed on the HyperExecute grid. The *--cache-dir* option in *npm install* is used for specifying the cache directory. It is important to note that downloaded cached packages are securely uploaded to a secure cloud before the execution environment is auto-purged after build completion. Please modify *requirements.txt* as per the project requirements.
+Content under the *pre* directive is the precondition that will run before the tests are executed on the HyperExecute grid. The *--cache-dir* option in *npm install* is used for specifying the cache directory. It is important to note that downloaded cached packages are securely uploaded to a secure cloud before the execution environment is auto-purged after build completion. Please modify *package-lock.json* as per the project requirements.
 
 ```yaml
   - yarn add @yarnpkg/core
@@ -186,7 +186,7 @@ yarn playwright test $test
 
 ### Test Execution
 
-The CLI option *--config* is used for providing the custom HyperExecute YAML file (i.e. *autosplit.yaml* for Windows, *autosplit.yaml* for Linux and  *autosplit.yaml* for Max).
+The CLI option *--config* is used for providing the custom HyperExecute YAML file (i.e. *autosplit.yaml* for Windows, *autosplit.yaml* for Linux and  *autosplit.yaml* for Mac).
 
 #### Execute TypeScript tests using Autosplit mechanism on Windows platform
 
@@ -204,7 +204,7 @@ Also, the *key:value* pairs are opaque strings for HyperExecute. For more inform
 
 ### Core
 
-In the current example, matrix YAML file (*yaml/win/.hyperexecute_matrix.yaml*) in the repo contains the following configuration:
+In the current example, matrix YAML file (*hyperexecute.yaml*) in the repo contains the following configuration:
 
 ```yaml
 globalTimeout: 90
@@ -273,7 +273,7 @@ The CLI option *--config* is used for providing the custom HyperExecute YAML fil
 Run the following command on the terminal to trigger the tests in TypeScript files with HyperExecute platform set to Windows. The *--download-artifacts* option is used to inform HyperExecute to download the artifacts for the job.
 
 ```bash
-./hyperexecute --download-artifacts --config --verbose .hyperexecute.yaml
+./hyperexecute --download-artifacts --config .hyperexecute.yaml
 ```
 
 #### Execute TypeScript tests using Matrix mechanism on Linux platform
