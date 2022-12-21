@@ -273,7 +273,7 @@ The CLI option *--config* is used for providing the custom HyperExecute YAML fil
 Run the following command on the terminal to trigger the tests in TypeScript files with HyperExecute platform set to Windows. The *--download-artifacts* option is used to inform HyperExecute to download the artifacts for the job.
 
 ```bash
-./hyperexecute --download-artifacts --config .hyperexecute.yaml
+./hyperexecute --download-artifacts --config hyperexecute.yaml
 ```
 
 #### Execute TypeScript tests using Matrix mechanism on Linux platform
@@ -281,7 +281,7 @@ Run the following command on the terminal to trigger the tests in TypeScript fil
 Run the following command on the terminal to trigger the tests in TypeScript files with HyperExecute platform set to Linux. The *--download-artifacts* option is used to inform HyperExecute to download the artifacts for the job.
 
 ```bash
-./hyperexecute --download-artifacts --config --verbose yaml/linux/.hyperexecute_matrix.yaml
+./hyperexecute --download-artifacts --config hyperexecute_matrix.yaml
 ```
 
 #### Execute TypeScript tests using Matrix mechanism on Mac platform
