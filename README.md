@@ -171,7 +171,7 @@ testDiscovery:
   mode: dynamic
   command: grep -lr 'test' tests
 
-testRunnerCommand: TypeScript $test
+testRunnerCommand: yarn playwright test $test
 ```
 
 Running the above command on the terminal will give a list of TypeScript files that are located in the Project folder:
@@ -220,19 +220,19 @@ The target platform is set to Windows. Please set the *[runson]* key to *[mac]* 
 runson: win
 ```
 
-TypeScript files in the 'tests' folder contain the test suites run on the HyperExecute grid. In the example, the tests in the files *test_1.spec.js* run in parallel using the specified input combinations.
+TypeScript files in the 'tests' folder contain the test suites run on the HyperExecute grid. In the example, the tests in the files **.spec.js* run in parallel using the specified input combinations.
 
 ```yaml
 matrix:
   os: [win]
-  methods: ["tests/test_2.spec.js", "tests/test_1.spec.js"]
+  specs: ["tests/test_2.spec.js", "tests/test_1.spec.js"]
 ```
 
 The *testSuites* object contains a list of commands (that can be presented in an array). In the current YAML file, commands for executing the tests are put in an array (with a '-' preceding each item). The TypeScript command is used to run tests in *.ts* files. The files are mentioned as an array to the *files* key that is a part of the matrix.
 
 ```yaml
 testSuites:
-  - yarn playwright test --config=./playwright.config.ts
+  - yarn playwright test $specs
 ```
 
 ### Pre Steps and Dependency Caching
