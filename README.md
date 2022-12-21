@@ -228,7 +228,7 @@ matrix:
   methods: ["tests/test_2.spec.js", "tests/test_1.spec.js"]
 ```
 
-The *testSuites* object contains a list of commands (that can be presented in an array). In the current YAML file, commands for executing the tests are put in an array (with a '-' preceding each item). The Python command is used to run tests in *.py* files. The files are mentioned as an array to the *files* key that is a part of the matrix.
+The *testSuites* object contains a list of commands (that can be presented in an array). In the current YAML file, commands for executing the tests are put in an array (with a '-' preceding each item). The TypeScript command is used to run tests in *.py* files. The files are mentioned as an array to the *files* key that is a part of the matrix.
 
 ```yaml
 testSuites:
