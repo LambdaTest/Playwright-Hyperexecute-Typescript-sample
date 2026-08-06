@@ -1,9 +1,12 @@
 ---
 version: "0.1"
+
 globalTimeout: 90
 testSuiteTimeout: 90
 testSuiteStep: 90
+
 runson: win
+
 autosplit: true
 retryOnFailure: false
 maxRetries: 1
@@ -24,14 +27,24 @@ cacheDirectories:
 testDiscovery:
   type: raw
   mode: static
-  command: grep -lR --include='*.spec.ts' 'test(' tests
+  command: |
+    echo tests/test_1.spec.ts
+    echo tests/test_2.spec.ts
+    echo tests/test_3.spec.ts
 
-testRunnerCommand: yarn playwright test $test --config=./playwright.config.ts --project="chrome:latest:Windows 10@lambdatest"
+testRunnerCommand: >
+  yarn playwright test $test
+  --config=./playwright.config.ts
+  --project="chrome:latest:Windows 10@lambdatest"
 
 report: true
+
 partialReports:
   frameworkName: playwright
   location: playwright-report
   type: html
 
-jobLabel: [playwright-typescript, win, autosplit]
+jobLabel:
+  - playwright-typescript
+  - win
+  - autosplit
